@@ -1,12 +1,17 @@
 import { Route, Routes } from 'react-router-dom';
 import LoginAdmin from './pages/Admin/LoginAdmin';
-import PainelControle from './pages/Admin/PainelControle';
+import CriarUnidade from './pages/Admin/CriarUnidade';
+import ConfigAplicacao from './pages/Admin/ConfigurarAplicacoes';
 
 export function Router() {
     return (
         <Routes>
             <Route path="/admin" element={<LoginAdmin />} />
-            <Route path="/admin/painel-controle" element={<PainelControle />} />
+            <Route path="/admin/criar-unidade" element={<CriarUnidade />} />
+            <Route
+                path="/admin/configurar-aplicacoes"
+                element={<ConfigAplicacao />}
+            />
         </Routes>
     );
 }

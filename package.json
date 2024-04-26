@@ -23,7 +23,10 @@
         "react-dom": "^18.2.0",
         "react-hook-form": "^7.51.3",
         "react-router-dom": "^6.23.0",
-        "sort-by": "^1.2.0"
+        "react-tabs": "^6.0.2",
+        "sort-by": "^1.2.0",
+        "zustand": "^4.5.2",
+        "zustand-persist": "^0.4.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.1.1",

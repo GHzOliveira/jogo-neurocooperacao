@@ -13,7 +13,7 @@ export default function LoginAdmin() {
     const navigate = useNavigate();
 
     function handlePainel() {
-        navigate('/admin/painel-controle');
+        navigate('/admin/criar-unidade');
     }
 
     return (
