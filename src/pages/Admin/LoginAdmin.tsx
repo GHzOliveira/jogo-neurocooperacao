@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Logo from '../../components/logo/Logo';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 interface IFormInput {
     user: string;
@@ -9,12 +10,22 @@ interface IFormInput {
 
 export default function LoginAdmin() {
     const { register, handleSubmit } = useForm<IFormInput>();
-    const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
     const navigate = useNavigate();
 
-    function handlePainel() {
-        navigate('/admin/criar-unidade');
-    }
+    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:3333/admin/login?user=${data.user}&password=${data.password}`,
+            );
+            if (response.data.status === 200) {
+                navigate('/admin/painel-controll');
+            } else {
+                alert('Usuário não encontrado');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -37,7 +48,7 @@ export default function LoginAdmin() {
                             {...register('password', { required: true })}
                         />
                         <button
-                            onClick={handlePainel}
+                            type="submit"
                             className="rounded-xl bg-[#ff7d0d] p-3 text-white"
                         >
                             Login
