@@ -1,6 +1,6 @@
-import PainelAdmin from '../../components/logo/painelAdmin/PainelAdmin';
+import PainelAdmin from '../../../components/logo/painelAdmin/PainelAdmin';
 import { useNavigate } from 'react-router-dom';
-import { useStore } from '../../context/store';
+import { useStore } from '../../../context/store';
 
 export default function CriarUnidade() {
     const nomeUnidade = useStore((state) => state.nomeUnidade);
@@ -9,6 +9,10 @@ export default function CriarUnidade() {
     const setNumRounds = useStore((state) => state.setNumRounds);
     const navigate = useNavigate();
 
+    const handleBackClick = () => {
+        navigate(-1);
+    };
+
     const handleNomeUnidadeChange = (event: { target: { value: string } }) => {
         setNomeUnidade(event.target.value);
     };
@@ -16,24 +20,24 @@ export default function CriarUnidade() {
     const handleNumRoundsChange = (
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        setNumRounds(parseInt(event.target.value));
+        setNumRounds(event.target.value);
     };
 
-    const handleCreateUnidade = () => {
+    const handleCreateUnidade = async () => {
         const unidade = {
-            nome: nomeUnidade,
-            rodadas: numRounds,
+            name: nomeUnidade,
+            rodadas: numRounds ? parseInt(numRounds) : 0,
         };
         console.log(unidade);
         navigate('/admin/configurar-aplicacoes', {
-            state: { numRounds, nomeUnidade },
+            state: { numRounds: unidade.rodadas, nomeUnidade },
         });
     };
 
     return (
         <div className="flex min-h-screen items-center justify-center">
             <PainelAdmin>
-                <div className="flex max-w-52 flex-col items-center gap-5">
+                <div className="flex flex-col items-center gap-5">
                     <div>
                         <label>
                             <a className="mb-2 block text-sm font-bold text-gray-700">
@@ -63,14 +67,24 @@ export default function CriarUnidade() {
                             onChange={handleNumRoundsChange}
                         />
                     </div>
-                    <div>
-                        <button
-                            className="focus:shadow-outline rounded bg-[#ff7d0d] px-4 py-2 font-bold text-white hover:bg-orange-600 focus:outline-none"
-                            type="button"
-                            onClick={handleCreateUnidade}
-                        >
-                            Criar Unidade
-                        </button>
+                    <div className="flex justify-between gap-10">
+                        <div>
+                            <button
+                                className="focus:shadow-outline rounded bg-[#ff7d0d] px-4 py-2 font-bold text-white hover:bg-orange-600 focus:outline-none"
+                                type="button"
+                                onClick={handleCreateUnidade}
+                            >
+                                Criar Unidade
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                onClick={handleBackClick}
+                                className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+                            >
+                                Voltar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </PainelAdmin>

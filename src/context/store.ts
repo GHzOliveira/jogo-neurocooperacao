@@ -3,29 +3,36 @@ import { PersistStorage, persist } from 'zustand/middleware';
 
 type State = {
     nomeUnidade: string;
-    numRounds: number;
+    numRounds: string;
     nEuros: string[];
     retribuicao: string[];
-    quantidadeRetribuicao: string[];
+    qntRetribuicao: string[];
+    groups: any[];
+    messages: any[];
     setNomeUnidade: (nome: string) => void;
-    setNumRounds: (num: number) => void;
+    setNumRounds: (num: string) => void;
     setNEuros: (nEuros: string[]) => void;
     setRetribuicao: (retribuicao: string[]) => void;
-    setQuantidadeRetribuicao: (quantidadeRetribuicao: string[]) => void;
+    setQntRetribuicao: (qntRetribuicao: string[]) => void;
+    setGroups: (groups: any[]) => void;
+    setMessages: (messages: any[]) => void;
 };
 
 const store = (set: (state: Partial<State>) => void) => ({
     nomeUnidade: '',
-    numRounds: 0,
+    numRounds: '',
     nEuros: [] as string[],
     retribuicao: [] as string[],
-    quantidadeRetribuicao: [] as string[],
+    qntRetribuicao: [] as string[],
+    groups: [] as any[],
+    messages: [] as any[],
     setNomeUnidade: (nome: string) => set({ nomeUnidade: nome }),
-    setNumRounds: (num: number) => set({ numRounds: num }),
+    setNumRounds: (num: string) => set({ numRounds: num }),
     setNEuros: (nEuros: string[]) => set({ nEuros }),
     setRetribuicao: (retribuicao: string[]) => set({ retribuicao }),
-    setQuantidadeRetribuicao: (quantidadeRetribuicao: string[]) =>
-        set({ quantidadeRetribuicao }),
+    setQntRetribuicao: (qntRetribuicao: string[]) => set({ qntRetribuicao }),
+    setGroups: (groups: any[]) => set({ groups }),
+    setMessages: (messages: any[]) => set({ messages }),
 });
 
 const customStorage: PersistStorage<State> = {
