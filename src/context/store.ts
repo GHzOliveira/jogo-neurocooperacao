@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { PersistStorage, persist } from 'zustand/middleware';
 
 type State = {
+    userId: string;
     nomeUnidade: string;
     numRounds: string;
     nEuros: string[];
@@ -9,6 +10,7 @@ type State = {
     qntRetribuicao: string[];
     groups: any[];
     messages: any[];
+    setUser: (userId: string) => void;
     setNomeUnidade: (nome: string) => void;
     setNumRounds: (num: string) => void;
     setNEuros: (nEuros: string[]) => void;
@@ -19,6 +21,7 @@ type State = {
 };
 
 const store = (set: (state: Partial<State>) => void) => ({
+    userId: '',
     nomeUnidade: '',
     numRounds: '',
     nEuros: [] as string[],
@@ -26,6 +29,7 @@ const store = (set: (state: Partial<State>) => void) => ({
     qntRetribuicao: [] as string[],
     groups: [] as any[],
     messages: [] as any[],
+    setUser: (userId: string) => set({ userId }),
     setNomeUnidade: (nome: string) => set({ nomeUnidade: nome }),
     setNumRounds: (num: string) => set({ numRounds: num }),
     setNEuros: (nEuros: string[]) => set({ nEuros }),

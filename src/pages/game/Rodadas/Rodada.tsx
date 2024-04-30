@@ -2,6 +2,7 @@ import { ArrowTrendingUpIcon, ArrowUpIcon } from '@heroicons/react/16/solid';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useStore } from '../../../context/store';
 
 export type RoundDetails = {
     id: string;
@@ -16,7 +17,9 @@ export type RoundDetails = {
 
 export function Rodada() {
     const { groupId, nRodada } = useParams();
+    const userId = useStore((state) => state.userId);
     const [roundDetails, setRoundDetails] = useState<RoundDetails | null>(null);
+    const [userNames, setUserNames] = useState<string[]>([]);
     const navigate = useNavigate();
 
     const handleAplicarClick = () => {
@@ -29,7 +32,32 @@ export function Rodada() {
                 const response = await axios.get(
                     `http://localhost:3333/group/${groupId}/round/${nRodada}`,
                 );
-                setRoundDetails(response.data);
+                let nEuroValue = response.data.nEuro;
+                if (nRodada !== '1' && userId) {
+                    const userResponse = await axios.get(
+                        `http://localhost:3333/user/${userId}`,
+                    );
+                    console.log(userResponse);
+                    nEuroValue = userResponse.data.nEuro;
+                }
+                setRoundDetails({ ...response.data, nEuro: nEuroValue });
+
+                const fetchUserNames = async () => {
+                    try {
+                        const response = await axios.get(
+                            'http://localhost:3333/users',
+                        );
+                        console.log(response.data); // Imprima a resposta completa
+                        const names = response.data.map(
+                            (user: any) => user.nome,
+                        );
+                        setUserNames(names);
+                    } catch (error) {
+                        console.error(
+                            `Erro ao buscar nomes dos usuários: ${error}`,
+                        );
+                    }
+                };
                 console.log(response.data);
             } catch (error) {
                 console.error(`Erro ao buscar detalhes da rodada: ${error}`);
@@ -37,7 +65,7 @@ export function Rodada() {
         };
 
         fetchRoundDetails();
-    }, []);
+    }, [groupId, nRodada, userId]);
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center">
