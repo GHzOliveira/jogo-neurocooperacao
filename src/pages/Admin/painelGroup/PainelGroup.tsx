@@ -79,7 +79,7 @@ export function PainelGroup() {
         if (editingRoundData) {
             axios
                 .put(
-                    `http://localhost:3333/group/${groupId}/round/${editingRoundId}`,
+                    `http://35.160.120.126/group/${groupId}/round/${editingRoundId}`,
                     editingRoundData,
                 )
                 .then((response) => {
@@ -99,7 +99,7 @@ export function PainelGroup() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3333/group/${groupId}/rounds`)
+            .get(`http://35.160.120.126/group/${groupId}/rounds`)
             .then((response) => {
                 setRounds(response.data.rodada);
             })

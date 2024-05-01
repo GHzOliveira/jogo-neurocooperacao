@@ -23,7 +23,7 @@ export function UserLogin() {
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const response = await axios.get('http://localhost:3333/group');
+                const response = await axios.get('http://35.160.120.126/group');
                 setGroups(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -51,7 +51,7 @@ export function UserLogin() {
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
-            const response = await axios.post(`http://localhost:3333/user`, {
+            const response = await axios.post(`http://35.160.120.126/user`, {
                 nome: data.nome,
                 whatsapp: data.whatsapp,
                 grupo: data.grupo,

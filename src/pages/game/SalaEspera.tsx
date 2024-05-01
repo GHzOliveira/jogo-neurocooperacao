@@ -24,7 +24,7 @@ export function SalaEspera() {
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:3333/group/${groupId}/gameRule`,
+                    `http://35.160.120.126/group/${groupId}/gameRule`,
                 );
                 setGameRule(response.data);
                 console.log(response.data);

@@ -49,22 +49,22 @@ export function StartGroup() {
 
         try {
             const roundResponse = await axios.get(
-                `http://localhost:3333/group/${groupId}/round/1`,
+                `http://35.160.120.126/group/${groupId}/round/1`,
             );
             const nEuro = roundResponse.data.nEuro;
 
-            const usersResponse = await axios.get('http://localhost:3333/user');
+            const usersResponse = await axios.get('http://35.160.120.126/user');
             const users = usersResponse.data;
             setTotalUsuarios(users.length);
             for (const user of users) {
-                await axios.patch(`http://localhost:3333/user/${user.id}`, {
+                await axios.patch(`http://35.160.120.126/user/${user.id}`, {
                     nEuro,
                 });
             }
 
             const totalUsuarios = users.length;
             await axios.patch(
-                `http://localhost:3333/group/${groupId}/applyNEuro`,
+                `http://35.160.120.126/group/${groupId}/applyNEuro`,
                 {
                     totalUsuarios,
                     nEuro: '0',
@@ -81,7 +81,7 @@ export function StartGroup() {
         event.preventDefault();
         try {
             const response = await axios.post(
-                `http://localhost:3333/group/${groupId}/next-round`,
+                `http://35.160.120.126/group/${groupId}/next-round`,
             );
             console.log(response.data);
             if (socket) {
