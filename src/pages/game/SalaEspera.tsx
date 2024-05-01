@@ -42,7 +42,7 @@ export function SalaEspera() {
 
     const connectToSocket = () => {
         const newSocket = io(
-            'https://neurocoop-backend-2225c4ca4682.herokuapp.com:3000',
+            'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
         );
         setSocket(newSocket);
 
