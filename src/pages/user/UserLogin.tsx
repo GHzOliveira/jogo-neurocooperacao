@@ -24,7 +24,7 @@ export function UserLogin() {
         const fetchGroups = async () => {
             try {
                 const response = await axios.get(
-                    'http://https://neurocooperacao-backend.onrender.com/group',
+                    'https://neurocoop-backend-2225c4ca4682.herokuapp.com/group',
                 );
                 setGroups(response.data);
                 console.log(response.data);
@@ -56,7 +56,7 @@ export function UserLogin() {
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
             const response = await axios.post(
-                `http://https://neurocooperacao-backend.onrender.com/user`,
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/user`,
                 {
                     nome: data.nome,
                     whatsapp: data.whatsapp,

@@ -51,18 +51,18 @@ export function StartGroup() {
 
         try {
             const roundResponse = await axios.get(
-                `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/round/1`,
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/round/1`,
             );
             const nEuro = roundResponse.data.nEuro;
 
             const usersResponse = await axios.get(
-                'http://https://neurocooperacao-backend.onrender.com/user',
+                'https://neurocoop-backend-2225c4ca4682.herokuapp.com/user',
             );
             const users = usersResponse.data;
             setTotalUsuarios(users.length);
             for (const user of users) {
                 await axios.patch(
-                    `http://https://neurocooperacao-backend.onrender.com/user/${user.id}`,
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/user/${user.id}`,
                     {
                         nEuro,
                     },
@@ -71,7 +71,7 @@ export function StartGroup() {
 
             const totalUsuarios = users.length;
             await axios.patch(
-                `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/applyNEuro`,
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/applyNEuro`,
                 {
                     totalUsuarios,
                     nEuro: '0',
@@ -88,7 +88,7 @@ export function StartGroup() {
         event.preventDefault();
         try {
             const response = await axios.post(
-                `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/next-round`,
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/next-round`,
             );
             console.log(response.data);
             if (socket) {

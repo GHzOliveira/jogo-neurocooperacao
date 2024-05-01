@@ -24,7 +24,7 @@ export function SalaEspera() {
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
-                    `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/gameRule`,
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/gameRule`,
                 );
                 setGameRule(response.data);
                 console.log(response.data);

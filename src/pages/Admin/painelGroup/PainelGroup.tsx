@@ -81,7 +81,7 @@ export function PainelGroup() {
         if (editingRoundData) {
             axios
                 .put(
-                    `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/round/${editingRoundId}`,
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/round/${editingRoundId}`,
                     editingRoundData,
                 )
                 .then((response) => {
@@ -102,7 +102,7 @@ export function PainelGroup() {
     useEffect(() => {
         axios
             .get(
-                `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/rounds`,
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/rounds`,
             )
             .then((response) => {
                 setRounds(response.data.rodada);

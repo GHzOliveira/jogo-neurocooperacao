@@ -52,12 +52,12 @@ export function Rodada() {
         const fetchRoundDetails = async () => {
             try {
                 const response = await axios.get(
-                    `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/round/${nRodada}`,
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/round/${nRodada}`,
                 );
                 let nEuroValue = response.data.nEuro;
                 if (nRodada !== '1' && userId) {
                     const userResponse = await axios.get(
-                        `http://https://neurocooperacao-backend.onrender.com/user/${userId}`,
+                        `https://neurocoop-backend-2225c4ca4682.herokuapp.com/user/${userId}`,
                     );
                     console.log(userResponse);
                     nEuroValue = userResponse.data.nEuro;
@@ -67,7 +67,7 @@ export function Rodada() {
                 const fetchUserNames = async () => {
                     try {
                         const response = await axios.get(
-                            'http://https://neurocooperacao-backend.onrender.com/users',
+                            'https://neurocoop-backend-2225c4ca4682.herokuapp.com/users',
                         );
                         console.log(response.data);
                         const names = response.data.map(
@@ -93,7 +93,7 @@ export function Rodada() {
         const fetchFundoRetido = async () => {
             try {
                 const response = await axios.get(
-                    `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/value/fundoRetido`,
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/value/fundoRetido`,
                 );
                 setFundoRetido(response.data);
             } catch (error) {
