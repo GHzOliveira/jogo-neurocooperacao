@@ -34,7 +34,7 @@ export function PainelGroup() {
     }
 
     useEffect(() => {
-        const socketIo = io('http://localhost:3000');
+        const socketIo = io('https://35.160.120.126:3000');
         setSocket(socketIo);
         return () => {
             socketIo.close();
@@ -79,7 +79,7 @@ export function PainelGroup() {
         if (editingRoundData) {
             axios
                 .put(
-                    `http://35.160.120.126/group/${groupId}/round/${editingRoundId}`,
+                    `http://35.160.120.126:3333/group/${groupId}/round/${editingRoundId}`,
                     editingRoundData,
                 )
                 .then((response) => {
@@ -99,7 +99,7 @@ export function PainelGroup() {
 
     useEffect(() => {
         axios
-            .get(`http://35.160.120.126/group/${groupId}/rounds`)
+            .get(`http://35.160.120.126:3333/group/${groupId}/rounds`)
             .then((response) => {
                 setRounds(response.data.rodada);
             })

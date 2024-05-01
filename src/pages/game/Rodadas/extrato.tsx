@@ -33,9 +33,11 @@ export function Extrato() {
             });
 
         // Buscar estatísticas
-        axios.get('http://35.160.120.126/group/nEuroStats').then((response) => {
-            setStats(response.data);
-        });
+        axios
+            .get('http://35.160.120.126:3333/group/nEuroStats')
+            .then((response) => {
+                setStats(response.data);
+            });
     }, [userId]);
 
     function downloadPDF() {

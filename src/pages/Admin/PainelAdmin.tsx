@@ -18,7 +18,7 @@ export default function PainelControllAdmin() {
 
     const handleDeleteGroup = async (id) => {
         try {
-            await axios.delete(`http://35.160.120.126/group/${id}`);
+            await axios.delete(`http://35.160.120.126:3333/group/${id}`);
             setGroups(groups.filter((group) => group.id !== id));
         } catch (error) {
             console.error(error);
@@ -33,7 +33,7 @@ export default function PainelControllAdmin() {
 
     const handleUpdateGroup = async () => {
         try {
-            await axios.put(`http://35.160.120.126/group/${editGroupId}`, {
+            await axios.put(`http://35.160.120.126:3333/group/${editGroupId}`, {
                 name: editGroupName,
             });
             setGroups(
@@ -53,7 +53,9 @@ export default function PainelControllAdmin() {
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const response = await axios.get('http://35.160.120.126/group');
+                const response = await axios.get(
+                    'http://35.160.120.126:3333/group',
+                );
                 setGroups(response.data);
                 console.log(response.data);
             } catch (error) {
