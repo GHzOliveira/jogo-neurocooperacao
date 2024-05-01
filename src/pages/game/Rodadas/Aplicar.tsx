@@ -3,15 +3,17 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { RoundDetails } from './Rodada';
 import { Socket, io } from 'socket.io-client';
+import { useStore } from '../../../context/store';
 
 export function Aplicar() {
     const { groupId, nRodada } = useParams();
+    const userId = useStore((state) => state.userId);
     const [roundDetails, setRoundDetails] = useState<RoundDetails | null>(null);
     const [applyValue, setApplyValue] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [socket, setSocket] = useState<Socket | null>(null);
-    const [message, setMessage] = useState<string | null>(null);
+    const [, setSocket] = useState<Socket | null>(null);
+    const [, setMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,34 +30,26 @@ export function Aplicar() {
             console.error(message);
         });
 
-        newSocket.on('storedMessage', async (message) => {
-            console.log('Mensagem recebida do servidor:', message);
-            setMessage(message);
+        newSocket.on('nextRoundStarted', async (groupId) => {
+            console.log('Mensagem recebida do servidor:', groupId);
+            setMessage(groupId);
             setShowModal(false);
-            let nextRound = parseInt(nRodada ?? '0') + 1;
-            while (true) {
-                try {
-                    const response = await axios.get(
-                        `http://localhost:3333/group/${groupId}/round/${nextRound}`,
-                    );
-                    if (response.data) {
-                        navigate(`/rodada/${groupId}/round/${nextRound}`, {
-                            state: { nEuro: roundDetails?.nEuro },
-                        });
-                        nextRound++;
-                    } else {
-                        window.location.href = 'http://localhost:5173';
-                        break;
-                    }
-                } catch (error) {
-                    console.error(
-                        `Erro ao verificar a existência da rodada ${nextRound}: ${error}`,
-                    );
-                    break;
+            try {
+                const nextRound = Number(nRodada) + 1;
+                const response = await axios.get(
+                    `http://localhost:3333/group/${groupId}/round/${nextRound}`,
+                );
+                if (response.status === 404) {
+                    console.log('Obrigado por jogar');
+                } else {
+                    navigate(`/rodada/${groupId}/round/${nextRound}`);
+                    console.log('Próxima rodada aqui');
                 }
+            } catch (error) {
+                console.error(`Erro ao buscar próxima rodada: ${error}`);
             }
         });
-    }, []);
+    }, [nRodada, navigate]);
 
     useEffect(() => {
         const fetchRoundDetails = async () => {
@@ -63,7 +57,14 @@ export function Aplicar() {
                 const response = await axios.get(
                     `http://localhost:3333/group/${groupId}/round/${nRodada}`,
                 );
-                setRoundDetails(response.data);
+                let nEuroValue = response.data.nEuro;
+                if (Number(nRodada) > 1 && userId) {
+                    const userResponse = await axios.get(
+                        `http://localhost:3333/user/${userId}`,
+                    );
+                    nEuroValue = userResponse.data.nEuro;
+                }
+                setRoundDetails({ ...response.data, nEuro: nEuroValue });
                 console.log(response.data);
             } catch (error) {
                 console.error(`Erro ao buscar detalhes da rodada: ${error}`);
@@ -71,7 +72,12 @@ export function Aplicar() {
         };
 
         fetchRoundDetails();
-    }, []);
+    }, [groupId, nRodada, userId]);
+
+    const manterNEuro = async () => {
+        setApplyValue(0);
+        await applyNEuro();
+    };
 
     const applyNEuro = async () => {
         try {
@@ -83,6 +89,21 @@ export function Aplicar() {
             );
             setErrorMessage('');
             setShowModal(true);
+
+            await axios.post(
+                `http://localhost:3333/group/${userId}/transaction`,
+                {
+                    roundId: nRodada,
+                    transactionType: 'apply',
+                    amount: applyValue.toString(),
+                },
+            );
+
+            if (Number(nRodada) > 1) {
+                await axios.put(
+                    `http://localhost:3333/group/${groupId}/updateTotalNEuro`,
+                );
+            }
         } catch (error) {
             console.error(`Erro ao aplicar nEuro: ${error}`);
             setErrorMessage(
@@ -123,6 +144,14 @@ export function Aplicar() {
                 onClick={applyNEuro}
             >
                 Aplicar nEuro
+            </button>
+            <button
+                type="submit"
+                className="mt-5 w-72 rounded-xl bg-orange-700 p-3 text-2xl text-white"
+                disabled={!!errorMessage}
+                onClick={manterNEuro}
+            >
+                Manter nEuro
             </button>
             {showModal && (
                 <div className="fixed inset-0 z-10 overflow-y-auto">

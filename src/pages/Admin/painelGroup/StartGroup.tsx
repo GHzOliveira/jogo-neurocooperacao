@@ -35,6 +35,9 @@ export function StartGroup() {
         newSocket.on('storedMessage', (message) => {
             setMessage(message);
         });
+        return () => {
+            newSocket.disconnect();
+        };
     }, []);
 
     const handleStartGame = async () => {
@@ -72,18 +75,28 @@ export function StartGroup() {
         }
     };
 
-    const handleNextRound = async () => {
+    const handleNextRound = async (
+        event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+        event.preventDefault();
         try {
             const response = await axios.post(
                 `http://localhost:3333/group/${groupId}/next-round`,
             );
             console.log(response.data);
             if (socket) {
-                socket.emit('testMessage', 'Próxima rodada iniciada', groupId);
+                socket.emit('nextRound', groupId);
                 setStoreMessage(['Próxima rodada iniciada']);
             }
         } catch (error) {
             console.error(`Erro ao iniciar a próxima rodada: ${error}`);
+        }
+    };
+
+    const handleEndGame = () => {
+        if (socket) {
+            socket.emit('endGame', groupId);
+            setStoreMessage(['Jogo finalizado']);
         }
     };
 
@@ -104,12 +117,25 @@ export function StartGroup() {
                             <p className="mb-5 text-2xl">Rodada iniciada</p>
                             <p className="font-bold">Notificação</p>
                             <p>{message}</p>
-                            <button
-                                className="mt-5 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
-                                onClick={handleNextRound}
-                            >
-                                Proxima Rodada
-                            </button>
+                            <div className="flex flex-col gap-5">
+                                <div>
+                                    <button
+                                        className="mt-5 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
+                                        onClick={handleNextRound}
+                                    >
+                                        Proxima Rodada
+                                    </button>
+                                </div>
+                                <div>
+                                    <button
+                                        className="focus:shadow-outline rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700 focus:outline-none"
+                                        type="button"
+                                        onClick={handleEndGame}
+                                    >
+                                        Finalizar jogo
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     )}
                     <div className="flex justify-between gap-10">

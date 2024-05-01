@@ -38,7 +38,7 @@ export function SalaEspera() {
         }, 5000);
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [groupId]);
 
     const connectToSocket = () => {
         const newSocket = io('http://localhost:3000');
