@@ -34,7 +34,9 @@ export function Rodada() {
     };
 
     useEffect(() => {
-        const socket = io('http://localhost:3000');
+        const socket = io(
+            'https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app',
+        );
         socket.on('Acabou', (groupId) => {
             console.log(
                 `Mensagem recebida do servidor: Acabou para o ${groupId}`,

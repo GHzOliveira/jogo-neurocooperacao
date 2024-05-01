@@ -37,7 +37,9 @@ export function UserLogin() {
     }, []);
 
     useEffect(() => {
-        const newSocket = io('http://localhost:3000');
+        const newSocket = io(
+            'https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app',
+        );
         setSocket(newSocket);
 
         newSocket.on('connect', () => {

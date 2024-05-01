@@ -1,0 +1,25 @@
+{
+    "routes": [
+        { "handle": "filesystem" },
+        {
+            "src": "/api/(.*)",
+            "dest": "https://seu-projeto-nestjs.vercel.app/api/$1"
+        },
+        { "src": "/rodada/:groupId/round/:nRodada", "dest": "/index.html" },
+        {
+            "src": "/rodada/:groupId/round/:nRodada/aplicar",
+            "dest": "/index.html"
+        },
+        { "src": "/sala-espera/:groupId", "dest": "/index.html" },
+        {
+            "src": "/rodada/:groupId/round/:nRodada/extrato",
+            "dest": "/index.html"
+        },
+        { "src": "/admin/painel-group/:groupId", "dest": "/index.html" },
+        { "src": "/admin/start-group/:groupId", "dest": "/index.html" },
+        { "src": "/admin", "dest": "/index.html" },
+        { "src": "/admin/painel-controll", "dest": "/index.html" },
+        { "src": "/admin/criar-unidade", "dest": "/index.html" },
+        { "src": "/admin/configurar-aplicacoes", "dest": "/index.html" }
+    ]
+}

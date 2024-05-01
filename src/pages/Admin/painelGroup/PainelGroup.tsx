@@ -35,7 +35,9 @@ export function PainelGroup() {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        const socketIo = io('http://localhost:3000');
+        const socketIo = io(
+            'https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app',
+        );
         setSocket(socketIo);
         return () => {
             socketIo.close();
