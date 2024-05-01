@@ -18,7 +18,7 @@ export function Aplicar() {
 
     useEffect(() => {
         const newSocket = io(
-            'https://https://neurocooperacao-backend.onrender.com:3000',
+            'https://neurocoop-backend-2225c4ca4682.herokuapp.com:3000',
         );
         setSocket(newSocket);
 

@@ -35,7 +35,7 @@ export function Rodada() {
 
     useEffect(() => {
         const socket = io(
-            'https://https://neurocooperacao-backend.onrender.com:3000',
+            'https://neurocoop-backend-2225c4ca4682.herokuapp.com:3000',
         );
         socket.on('Acabou', (groupId) => {
             console.log(

@@ -35,7 +35,7 @@ export function PainelGroup() {
 
     useEffect(() => {
         const socketIo = io(
-            'https://https://neurocooperacao-backend.onrender.com:3000',
+            'https://neurocoop-backend-2225c4ca4682.herokuapp.com:3000',
         );
         setSocket(socketIo);
         return () => {
