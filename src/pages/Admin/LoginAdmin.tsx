@@ -15,7 +15,7 @@ export default function LoginAdmin() {
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
             const response = await axios.get(
-                `https://neurocooperacao-backend.vercel.app/admin/login?user=${data.user}&password=${data.password}`,
+                `35.160.120.126/admin/login?user=${data.user}&password=${data.password}`,
             );
             if (response.data.status === 200) {
                 navigate('/admin/painel-controll');
