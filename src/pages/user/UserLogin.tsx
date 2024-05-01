@@ -24,7 +24,7 @@ export function UserLogin() {
         const fetchGroups = async () => {
             try {
                 const response = await axios.get(
-                    'http://35.160.120.126:3333/group',
+                    'http://https://neurocooperacao-backend.onrender.com/group',
                 );
                 setGroups(response.data);
                 console.log(response.data);
@@ -37,7 +37,9 @@ export function UserLogin() {
     }, []);
 
     useEffect(() => {
-        const newSocket = io('https://35.160.120.126:3000');
+        const newSocket = io(
+            'https://https://neurocooperacao-backend.onrender.com:3000',
+        );
         setSocket(newSocket);
 
         newSocket.on('connect', () => {
@@ -54,7 +56,7 @@ export function UserLogin() {
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
             const response = await axios.post(
-                `http://35.160.120.126:3333/user`,
+                `http://https://neurocooperacao-backend.onrender.com/user`,
                 {
                     nome: data.nome,
                     whatsapp: data.whatsapp,

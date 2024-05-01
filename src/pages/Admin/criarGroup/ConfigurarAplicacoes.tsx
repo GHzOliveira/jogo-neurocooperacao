@@ -67,7 +67,7 @@ export default function ConfigAplicacao() {
 
         try {
             const response = await axios.post(
-                'http://35.160.120.126:3333/group',
+                'http://https://neurocooperacao-backend.onrender.com/group',
                 grupo,
             );
             console.log(response.data);

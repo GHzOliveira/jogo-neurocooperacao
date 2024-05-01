@@ -19,7 +19,9 @@ export function StartGroup() {
     };
 
     useEffect(() => {
-        const newSocket = io('https://35.160.120.126:3000');
+        const newSocket = io(
+            'https://https://neurocooperacao-backend.onrender.com:3000',
+        );
         setSocket(newSocket);
 
         newSocket.on('connect', () => {
@@ -49,18 +51,18 @@ export function StartGroup() {
 
         try {
             const roundResponse = await axios.get(
-                `http://35.160.120.126:3333/group/${groupId}/round/1`,
+                `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/round/1`,
             );
             const nEuro = roundResponse.data.nEuro;
 
             const usersResponse = await axios.get(
-                'http://35.160.120.126:3333/user',
+                'http://https://neurocooperacao-backend.onrender.com/user',
             );
             const users = usersResponse.data;
             setTotalUsuarios(users.length);
             for (const user of users) {
                 await axios.patch(
-                    `http://35.160.120.126:3333/user/${user.id}`,
+                    `http://https://neurocooperacao-backend.onrender.com/user/${user.id}`,
                     {
                         nEuro,
                     },
@@ -69,7 +71,7 @@ export function StartGroup() {
 
             const totalUsuarios = users.length;
             await axios.patch(
-                `http://35.160.120.126:3333/group/${groupId}/applyNEuro`,
+                `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/applyNEuro`,
                 {
                     totalUsuarios,
                     nEuro: '0',
@@ -86,7 +88,7 @@ export function StartGroup() {
         event.preventDefault();
         try {
             const response = await axios.post(
-                `http://35.160.120.126:3333/group/${groupId}/next-round`,
+                `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/next-round`,
             );
             console.log(response.data);
             if (socket) {

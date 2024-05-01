@@ -34,7 +34,9 @@ export function Rodada() {
     };
 
     useEffect(() => {
-        const socket = io('https://35.160.120.126:3000');
+        const socket = io(
+            'https://https://neurocooperacao-backend.onrender.com:3000',
+        );
         socket.on('Acabou', (groupId) => {
             console.log(
                 `Mensagem recebida do servidor: Acabou para o ${groupId}`,
@@ -50,12 +52,12 @@ export function Rodada() {
         const fetchRoundDetails = async () => {
             try {
                 const response = await axios.get(
-                    `http://35.160.120.126:3333/group/${groupId}/round/${nRodada}`,
+                    `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/round/${nRodada}`,
                 );
                 let nEuroValue = response.data.nEuro;
                 if (nRodada !== '1' && userId) {
                     const userResponse = await axios.get(
-                        `http://35.160.120.126:3333/user/${userId}`,
+                        `http://https://neurocooperacao-backend.onrender.com/user/${userId}`,
                     );
                     console.log(userResponse);
                     nEuroValue = userResponse.data.nEuro;
@@ -65,7 +67,7 @@ export function Rodada() {
                 const fetchUserNames = async () => {
                     try {
                         const response = await axios.get(
-                            'http://35.160.120.126:3333/users',
+                            'http://https://neurocooperacao-backend.onrender.com/users',
                         );
                         console.log(response.data);
                         const names = response.data.map(
@@ -91,7 +93,7 @@ export function Rodada() {
         const fetchFundoRetido = async () => {
             try {
                 const response = await axios.get(
-                    `http://35.160.120.126:3333/group/${groupId}/value/fundoRetido`,
+                    `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/value/fundoRetido`,
                 );
                 setFundoRetido(response.data);
             } catch (error) {

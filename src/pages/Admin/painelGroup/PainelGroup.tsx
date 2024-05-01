@@ -34,7 +34,9 @@ export function PainelGroup() {
     }
 
     useEffect(() => {
-        const socketIo = io('https://35.160.120.126:3000');
+        const socketIo = io(
+            'https://https://neurocooperacao-backend.onrender.com:3000',
+        );
         setSocket(socketIo);
         return () => {
             socketIo.close();
@@ -79,7 +81,7 @@ export function PainelGroup() {
         if (editingRoundData) {
             axios
                 .put(
-                    `http://35.160.120.126:3333/group/${groupId}/round/${editingRoundId}`,
+                    `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/round/${editingRoundId}`,
                     editingRoundData,
                 )
                 .then((response) => {
@@ -99,7 +101,9 @@ export function PainelGroup() {
 
     useEffect(() => {
         axios
-            .get(`http://35.160.120.126:3333/group/${groupId}/rounds`)
+            .get(
+                `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/rounds`,
+            )
             .then((response) => {
                 setRounds(response.data.rodada);
             })

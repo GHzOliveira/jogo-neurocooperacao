@@ -18,7 +18,9 @@ export default function PainelControllAdmin() {
 
     const handleDeleteGroup = async (id) => {
         try {
-            await axios.delete(`http://35.160.120.126:3333/group/${id}`);
+            await axios.delete(
+                `http://https://neurocooperacao-backend.onrender.com/group/${id}`,
+            );
             setGroups(groups.filter((group) => group.id !== id));
         } catch (error) {
             console.error(error);
@@ -33,9 +35,12 @@ export default function PainelControllAdmin() {
 
     const handleUpdateGroup = async () => {
         try {
-            await axios.put(`http://35.160.120.126:3333/group/${editGroupId}`, {
-                name: editGroupName,
-            });
+            await axios.put(
+                `http://https://neurocooperacao-backend.onrender.com/group/${editGroupId}`,
+                {
+                    name: editGroupName,
+                },
+            );
             setGroups(
                 groups.map((group) =>
                     group.id === editGroupId
@@ -54,7 +59,7 @@ export default function PainelControllAdmin() {
         const fetchGroups = async () => {
             try {
                 const response = await axios.get(
-                    'http://35.160.120.126:3333/group',
+                    'http://https://neurocooperacao-backend.onrender.com/group',
                 );
                 setGroups(response.data);
                 console.log(response.data);

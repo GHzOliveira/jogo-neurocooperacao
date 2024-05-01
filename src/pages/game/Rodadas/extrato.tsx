@@ -34,7 +34,9 @@ export function Extrato() {
 
         // Buscar estatísticas
         axios
-            .get('http://35.160.120.126:3333/group/nEuroStats')
+            .get(
+                'http://https://neurocooperacao-backend.onrender.com/group/nEuroStats',
+            )
             .then((response) => {
                 setStats(response.data);
             });

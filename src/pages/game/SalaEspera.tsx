@@ -24,7 +24,7 @@ export function SalaEspera() {
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
-                    `http://35.160.120.126:3333/group/${groupId}/gameRule`,
+                    `http://https://neurocooperacao-backend.onrender.com/group/${groupId}/gameRule`,
                 );
                 setGameRule(response.data);
                 console.log(response.data);
@@ -41,7 +41,9 @@ export function SalaEspera() {
     }, [groupId]);
 
     const connectToSocket = () => {
-        const newSocket = io('https://35.160.120.126:3000');
+        const newSocket = io(
+            'https://https://neurocooperacao-backend.onrender.com:3000',
+        );
         setSocket(newSocket);
 
         newSocket.on('connect', () => {
