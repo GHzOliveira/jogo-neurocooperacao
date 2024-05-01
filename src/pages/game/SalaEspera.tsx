@@ -27,7 +27,6 @@ export function SalaEspera() {
                     `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/gameRule`,
                 );
                 setGameRule(response.data);
-                console.log(response.data);
 
                 if (response.data) {
                     clearInterval(intervalId);

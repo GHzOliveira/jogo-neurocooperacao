@@ -70,7 +70,6 @@ export default function ConfigAplicacao() {
                 'https://neurocoop-backend-2225c4ca4682.herokuapp.com/group',
                 grupo,
             );
-            console.log(response.data);
             if (response.status === 201) {
                 navigate('/admin/painel-controll');
             } else {
@@ -83,8 +82,6 @@ export default function ConfigAplicacao() {
                 console.log(error);
             }
         }
-
-        console.log(grupo);
     };
 
     return (

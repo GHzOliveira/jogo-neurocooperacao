@@ -28,7 +28,6 @@ export default function CriarUnidade() {
             name: nomeUnidade,
             rodadas: numRounds ? parseInt(numRounds) : 0,
         };
-        console.log(unidade);
         navigate('/admin/configurar-aplicacoes', {
             state: { numRounds: unidade.rodadas, nomeUnidade },
         });

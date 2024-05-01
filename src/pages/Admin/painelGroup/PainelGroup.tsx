@@ -45,7 +45,6 @@ export function PainelGroup() {
 
     const handleGameRuleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log(gameRule);
         socket?.emit('sendGameRule', gameRule, groupId);
         socket?.emit('createGame', groupId);
         socket?.emit('joinGame', groupId);

@@ -33,7 +33,6 @@ export function Aplicar() {
         });
 
         newSocket.on('nextRoundStarted', async (groupId) => {
-            console.log('Mensagem recebida do servidor:', groupId);
             setMessage(groupId);
             setShowModal(false);
             try {
@@ -45,7 +44,6 @@ export function Aplicar() {
                     console.log('Obrigado por jogar');
                 } else {
                     navigate(`/rodada/${groupId}/round/${nextRound}`);
-                    console.log('Próxima rodada aqui');
                 }
             } catch (error) {
                 console.error(`Erro ao buscar próxima rodada: ${error}`);

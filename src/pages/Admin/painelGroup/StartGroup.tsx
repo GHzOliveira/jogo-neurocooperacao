@@ -43,7 +43,6 @@ export function StartGroup() {
     }, []);
 
     const handleStartGame = async () => {
-        console.log('start game', groupId);
         if (socket) {
             socket.emit('testMessage', 'Jogo Iniciado', groupId);
             setStoreMessage(['Jogo iniciado']);
@@ -90,7 +89,6 @@ export function StartGroup() {
             const response = await axios.post(
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/next-round`,
             );
-            console.log(response.data);
             if (socket) {
                 socket.emit('nextRound', groupId);
                 setStoreMessage(['Próxima rodada iniciada']);

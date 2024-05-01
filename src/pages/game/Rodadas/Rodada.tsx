@@ -59,7 +59,6 @@ export function Rodada() {
                     const userResponse = await axios.get(
                         `https://neurocoop-backend-2225c4ca4682.herokuapp.com/user/${userId}`,
                     );
-                    console.log(userResponse);
                     nEuroValue = userResponse.data.nEuro;
                 }
                 setRoundDetails({ ...response.data, nEuro: nEuroValue });
@@ -69,7 +68,6 @@ export function Rodada() {
                         const response = await axios.get(
                             'https://neurocoop-backend-2225c4ca4682.herokuapp.com/users',
                         );
-                        console.log(response.data);
                         const names = response.data.map(
                             (user: any) => user.nome,
                         );
@@ -80,7 +78,6 @@ export function Rodada() {
                         );
                     }
                 };
-                console.log(response.data);
             } catch (error) {
                 console.error(`Erro ao buscar detalhes da rodada: ${error}`);
             }

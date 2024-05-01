@@ -62,7 +62,6 @@ export default function PainelControllAdmin() {
                     'https://neurocoop-backend-2225c4ca4682.herokuapp.com/group',
                 );
                 setGroups(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error(error);
             }
