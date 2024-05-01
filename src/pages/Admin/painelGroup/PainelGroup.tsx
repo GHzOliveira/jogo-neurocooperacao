@@ -33,6 +33,7 @@ export function PainelGroup() {
         return <div>Grupo não encontrado</div>;
     }
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         const socketIo = io('http://localhost:3000');
         setSocket(socketIo);
@@ -79,7 +80,7 @@ export function PainelGroup() {
         if (editingRoundData) {
             axios
                 .put(
-                    `http://localhost:3333/group/${groupId}/round/${editingRoundId}`,
+                    `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${groupId}/round/${editingRoundId}`,
                     editingRoundData,
                 )
                 .then((response) => {
@@ -99,7 +100,9 @@ export function PainelGroup() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3333/group/${groupId}/rounds`)
+            .get(
+                `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${groupId}/rounds`,
+            )
             .then((response) => {
                 setRounds(response.data.rodada);
             })

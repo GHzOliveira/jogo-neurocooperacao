@@ -37,7 +37,7 @@ export function Aplicar() {
             try {
                 const nextRound = Number(nRodada) + 1;
                 const response = await axios.get(
-                    `http://localhost:3333/group/${groupId}/round/${nextRound}`,
+                    `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${groupId}/round/${nextRound}`,
                 );
                 if (response.status === 404) {
                     console.log('Obrigado por jogar');
@@ -55,12 +55,12 @@ export function Aplicar() {
         const fetchRoundDetails = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:3333/group/${groupId}/round/${nRodada}`,
+                    `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${groupId}/round/${nRodada}`,
                 );
                 let nEuroValue = response.data.nEuro;
                 if (Number(nRodada) > 1 && userId) {
                     const userResponse = await axios.get(
-                        `http://localhost:3333/user/${userId}`,
+                        `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/user/${userId}`,
                     );
                     nEuroValue = userResponse.data.nEuro;
                 }
@@ -82,7 +82,7 @@ export function Aplicar() {
     const applyNEuro = async () => {
         try {
             await axios.patch(
-                `http://localhost:3333/group/${groupId}/applyNEuro`,
+                `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${groupId}/applyNEuro`,
                 {
                     nEuro: applyValue.toString(),
                 },
@@ -91,7 +91,7 @@ export function Aplicar() {
             setShowModal(true);
 
             await axios.post(
-                `http://localhost:3333/group/${userId}/transaction`,
+                `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${userId}/transaction`,
                 {
                     roundId: nRodada,
                     transactionType: 'apply',
@@ -101,7 +101,7 @@ export function Aplicar() {
 
             if (Number(nRodada) > 1) {
                 await axios.put(
-                    `http://localhost:3333/group/${groupId}/updateTotalNEuro`,
+                    `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${groupId}/updateTotalNEuro`,
                 );
             }
         } catch (error) {

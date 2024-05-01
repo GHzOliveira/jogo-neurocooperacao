@@ -33,9 +33,13 @@ export function Extrato() {
             });
 
         // Buscar estatísticas
-        axios.get('http://localhost:3333/group/nEuroStats').then((response) => {
-            setStats(response.data);
-        });
+        axios
+            .get(
+                'https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/nEuroStats',
+            )
+            .then((response) => {
+                setStats(response.data);
+            });
     }, [userId]);
 
     function downloadPDF() {

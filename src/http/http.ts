@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:3333',
+    baseURL:
+        'https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app',
 });
 
 export default api;

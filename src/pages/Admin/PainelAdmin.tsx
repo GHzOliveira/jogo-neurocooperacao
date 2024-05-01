@@ -9,23 +9,29 @@ export default function PainelControllAdmin() {
     const groups = useStore((state) => state.groups);
     const setGroups = useStore((state) => state.setGroups);
     const navigate = useNavigate();
-    const [editGroupId, setEditGroupId] = useState(null);
+    const [editGroupId, setEditGroupId] = useState<string | null>(null);
     const [editGroupName, setEditGroupName] = useState('');
 
     const handleCriarUnidade = () => {
         navigate('/admin/criar-unidade');
     };
 
-    const handleDeleteGroup = async (id) => {
+    const handleDeleteGroup = async (id: any) => {
         try {
-            await axios.delete(`http://localhost:3333/group/${id}`);
+            await axios.delete(
+                `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${id}`,
+            );
             setGroups(groups.filter((group) => group.id !== id));
         } catch (error) {
             console.error(error);
         }
     };
 
-    const handleEditGroup = (event, id, name) => {
+    const handleEditGroup = (
+        event: React.MouseEvent<HTMLButtonElement>,
+        id: string,
+        name: string,
+    ): void => {
         event.preventDefault();
         setEditGroupId(id);
         setEditGroupName(name);
@@ -33,9 +39,12 @@ export default function PainelControllAdmin() {
 
     const handleUpdateGroup = async () => {
         try {
-            await axios.put(`http://localhost:3333/group/${editGroupId}`, {
-                name: editGroupName,
-            });
+            await axios.put(
+                `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${editGroupId}`,
+                {
+                    name: editGroupName,
+                },
+            );
             setGroups(
                 groups.map((group) =>
                     group.id === editGroupId
@@ -53,7 +62,9 @@ export default function PainelControllAdmin() {
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const response = await axios.get('http://localhost:3333/group');
+                const response = await axios.get(
+                    'https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group',
+                );
                 setGroups(response.data);
                 console.log(response.data);
             } catch (error) {

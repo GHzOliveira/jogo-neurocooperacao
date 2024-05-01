@@ -23,7 +23,9 @@ export function UserLogin() {
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const response = await axios.get('http://localhost:3333/group');
+                const response = await axios.get(
+                    'https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group',
+                );
                 setGroups(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -51,11 +53,14 @@ export function UserLogin() {
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
-            const response = await axios.post(`http://localhost:3333/user`, {
-                nome: data.nome,
-                whatsapp: data.whatsapp,
-                grupo: data.grupo,
-            });
+            const response = await axios.post(
+                `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/user`,
+                {
+                    nome: data.nome,
+                    whatsapp: data.whatsapp,
+                    grupo: data.grupo,
+                },
+            );
             setUserId(response.data.id);
             if (socket) {
                 socket.emit('joinGame', data.grupo);

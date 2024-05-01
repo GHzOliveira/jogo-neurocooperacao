@@ -67,7 +67,7 @@ export default function ConfigAplicacao() {
 
         try {
             const response = await axios.post(
-                'http://localhost:3333/group',
+                'https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group',
                 grupo,
             );
             console.log(response.data);

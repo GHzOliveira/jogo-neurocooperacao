@@ -49,22 +49,27 @@ export function StartGroup() {
 
         try {
             const roundResponse = await axios.get(
-                `http://localhost:3333/group/${groupId}/round/1`,
+                `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${groupId}/round/1`,
             );
             const nEuro = roundResponse.data.nEuro;
 
-            const usersResponse = await axios.get('http://localhost:3333/user');
+            const usersResponse = await axios.get(
+                'https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/user',
+            );
             const users = usersResponse.data;
             setTotalUsuarios(users.length);
             for (const user of users) {
-                await axios.patch(`http://localhost:3333/user/${user.id}`, {
-                    nEuro,
-                });
+                await axios.patch(
+                    `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/user/${user.id}`,
+                    {
+                        nEuro,
+                    },
+                );
             }
 
             const totalUsuarios = users.length;
             await axios.patch(
-                `http://localhost:3333/group/${groupId}/applyNEuro`,
+                `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${groupId}/applyNEuro`,
                 {
                     totalUsuarios,
                     nEuro: '0',
@@ -81,7 +86,7 @@ export function StartGroup() {
         event.preventDefault();
         try {
             const response = await axios.post(
-                `http://localhost:3333/group/${groupId}/next-round`,
+                `https://neurocooperacao-backend-8o0wti1lu-ghzoliveiras-projects.vercel.app/group/${groupId}/next-round`,
             );
             console.log(response.data);
             if (socket) {
