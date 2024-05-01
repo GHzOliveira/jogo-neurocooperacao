@@ -1,7 +1,9 @@
-import { ArrowTrendingUpIcon, ArrowUpIcon } from '@heroicons/react/16/solid';
+import { ArrowTrendingUpIcon } from '@heroicons/react/16/solid';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useStore } from '../../../context/store';
+import { io } from 'socket.io-client';
 
 export type RoundDetails = {
     id: string;
@@ -16,12 +18,33 @@ export type RoundDetails = {
 
 export function Rodada() {
     const { groupId, nRodada } = useParams();
+    const userId = useStore((state) => state.userId);
     const [roundDetails, setRoundDetails] = useState<RoundDetails | null>(null);
+    const [, setUserNames] = useState<string[]>([]);
+    const [fundoRetido, setFundoRetido] = useState('0');
+    const [showApplyButton, setShowApplyButton] = useState(true);
     const navigate = useNavigate();
 
     const handleAplicarClick = () => {
         navigate(`/rodada/${groupId}/round/${nRodada}/aplicar`);
     };
+
+    const handleEnviarExtratoClick = () => {
+        navigate(`/rodada/${groupId}/round/${nRodada}/extrato`);
+    };
+
+    useEffect(() => {
+        const socket = io('http://localhost:3000');
+        socket.on('Acabou', (groupId) => {
+            console.log(
+                `Mensagem recebida do servidor: Acabou para o ${groupId}`,
+            );
+            setShowApplyButton(false);
+        });
+        return () => {
+            socket.off('Acabou');
+        };
+    }, []);
 
     useEffect(() => {
         const fetchRoundDetails = async () => {
@@ -29,7 +52,32 @@ export function Rodada() {
                 const response = await axios.get(
                     `http://localhost:3333/group/${groupId}/round/${nRodada}`,
                 );
-                setRoundDetails(response.data);
+                let nEuroValue = response.data.nEuro;
+                if (nRodada !== '1' && userId) {
+                    const userResponse = await axios.get(
+                        `http://localhost:3333/user/${userId}`,
+                    );
+                    console.log(userResponse);
+                    nEuroValue = userResponse.data.nEuro;
+                }
+                setRoundDetails({ ...response.data, nEuro: nEuroValue });
+
+                const fetchUserNames = async () => {
+                    try {
+                        const response = await axios.get(
+                            'http://localhost:3333/users',
+                        );
+                        console.log(response.data);
+                        const names = response.data.map(
+                            (user: any) => user.nome,
+                        );
+                        setUserNames(names);
+                    } catch (error) {
+                        console.error(
+                            `Erro ao buscar nomes dos usuários: ${error}`,
+                        );
+                    }
+                };
                 console.log(response.data);
             } catch (error) {
                 console.error(`Erro ao buscar detalhes da rodada: ${error}`);
@@ -37,7 +85,22 @@ export function Rodada() {
         };
 
         fetchRoundDetails();
-    }, []);
+    }, [groupId, nRodada, userId]);
+
+    useEffect(() => {
+        const fetchFundoRetido = async () => {
+            try {
+                const response = await axios.get(
+                    `http://localhost:3333/group/${groupId}/value/fundoRetido`,
+                );
+                setFundoRetido(response.data);
+            } catch (error) {
+                console.error(`Erro ao buscar fundo retido: ${error}`);
+            }
+        };
+
+        fetchFundoRetido();
+    }, [groupId]);
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center">
@@ -54,40 +117,31 @@ export function Rodada() {
                 </div>
             </div>
             <div className="mb-4 flex w-64 justify-center rounded-lg bg-white py-3 shadow-md">
-                <button
-                    className="flex items-center text-xl text-black"
-                    onClick={handleAplicarClick}
-                >
-                    <ArrowTrendingUpIcon className="mr-5 h-5 w-5" />
-                    Aplicar
-                </button>
-            </div>
-            <div className="mb-4 flex w-64 justify-center rounded-lg bg-white py-3 shadow-md">
-                <button className="flex items-center text-xl text-black">
-                    Manter
-                </button>
-            </div>
-
-            <div className="mt-20 flex flex-col text-3xl">
-                <h1 className="text-white">Total de rendimento</h1>
-                <div className="flex">
-                    <div className="text-green-500">
-                        <ArrowUpIcon className="h-8 w-8" />
-                    </div>
-                    <h1 className="text-green-500">N$ 0,00</h1>
-                </div>
+                {showApplyButton && (
+                    <button
+                        className="flex items-center text-xl text-black"
+                        onClick={handleAplicarClick}
+                    >
+                        <ArrowTrendingUpIcon className="mr-5 h-5 w-5" />
+                        Aplicar ou Manter
+                    </button>
+                )}
+                {!showApplyButton && (
+                    <button
+                        className="flex items-center text-xl text-black"
+                        onClick={handleEnviarExtratoClick}
+                    >
+                        Enviar extrato
+                    </button>
+                )}
             </div>
 
             <div className="mt-20 flex w-80 flex-col justify-center gap-2 rounded-lg bg-white py-3 text-center shadow-md">
                 <div>
                     <h2 className="text-lg">Fundo retido</h2>
-                    <h1 className="text-3xl">N$ 0,00</h1>
+                    <h1 className="text-3xl">{`N$ ${fundoRetido}`}</h1>
                 </div>
                 <div className="mx-4 border-l" />
-                <div>
-                    <h2 className="text-lg">Número total de participantes</h2>
-                    <h1 className="text-3xl">20</h1>
-                </div>
             </div>
         </div>
     );

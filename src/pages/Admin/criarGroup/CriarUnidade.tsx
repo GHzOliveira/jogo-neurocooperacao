@@ -10,7 +10,7 @@ export default function CriarUnidade() {
     const navigate = useNavigate();
 
     const handleBackClick = () => {
-        navigate(-1);
+        navigate('/admin/painel-controll');
     };
 
     const handleNomeUnidadeChange = (event: { target: { value: string } }) => {

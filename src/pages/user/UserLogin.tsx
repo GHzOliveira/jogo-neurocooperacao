@@ -15,6 +15,7 @@ interface IFormInput {
 export function UserLogin() {
     const groups = useStore((state) => state.groups);
     const setGroups = useStore((state) => state.setGroups);
+    const setUserId = useStore((state) => state.setUser);
     const { register, handleSubmit } = useForm<IFormInput>();
     const navigate = useNavigate();
     const [socket, setSocket] = useState<Socket | null>(null);
@@ -55,6 +56,7 @@ export function UserLogin() {
                 whatsapp: data.whatsapp,
                 grupo: data.grupo,
             });
+            setUserId(response.data.id);
             if (socket) {
                 socket.emit('joinGame', data.grupo);
                 navigate(`/sala-espera/${data.grupo}`);

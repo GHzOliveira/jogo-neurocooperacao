@@ -8,7 +8,9 @@ import axios from 'axios';
 export function StartGroup() {
     const { groupId } = useParams();
     const [socket, setSocket] = useState<Socket | null>(null);
-    const setMessage = useStore((state) => state.setMessages);
+    const [message, setMessage] = useState<string | null>(null);
+    const setStoreMessage = useStore((state) => state.setMessages);
+    const [totalUsuarios, setTotalUsuarios] = useState(0);
     const navigate = useNavigate();
 
     const handleBackClick = (event: React.MouseEvent) => {
@@ -29,13 +31,20 @@ export function StartGroup() {
         newSocket.on('error', (message) => {
             console.error(message);
         });
+
+        newSocket.on('storedMessage', (message) => {
+            setMessage(message);
+        });
+        return () => {
+            newSocket.disconnect();
+        };
     }, []);
 
     const handleStartGame = async () => {
         console.log('start game', groupId);
         if (socket) {
             socket.emit('testMessage', 'Jogo Iniciado', groupId);
-            setMessage(['Jogo iniciado']);
+            setStoreMessage(['Jogo iniciado']);
         }
 
         try {
@@ -46,13 +55,48 @@ export function StartGroup() {
 
             const usersResponse = await axios.get('http://localhost:3333/user');
             const users = usersResponse.data;
+            setTotalUsuarios(users.length);
             for (const user of users) {
                 await axios.patch(`http://localhost:3333/user/${user.id}`, {
                     nEuro,
                 });
             }
+
+            const totalUsuarios = users.length;
+            await axios.patch(
+                `http://localhost:3333/group/${groupId}/applyNEuro`,
+                {
+                    totalUsuarios,
+                    nEuro: '0',
+                },
+            );
         } catch (error) {
             console.error(`Erro ao buscar detalhes da rodada: ${error}`);
+        }
+    };
+
+    const handleNextRound = async (
+        event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post(
+                `http://localhost:3333/group/${groupId}/next-round`,
+            );
+            console.log(response.data);
+            if (socket) {
+                socket.emit('nextRound', groupId);
+                setStoreMessage(['Próxima rodada iniciada']);
+            }
+        } catch (error) {
+            console.error(`Erro ao iniciar a próxima rodada: ${error}`);
+        }
+    };
+
+    const handleEndGame = () => {
+        if (socket) {
+            socket.emit('endGame', groupId);
+            setStoreMessage(['Jogo finalizado']);
         }
     };
 
@@ -61,8 +105,39 @@ export function StartGroup() {
             <PainelAdmin>
                 <div className="flex flex-col">
                     <div>
-                        <h1 className="bg-white">Jogadores na sala:</h1>
+                        <h1 className="bg-white">
+                            Jogadores na sala: {totalUsuarios}
+                        </h1>
                     </div>
+                    {message && (
+                        <div
+                            className="mb-10 border-l-4 border-green-500 bg-green-200 p-4 text-green-700"
+                            role="alert"
+                        >
+                            <p className="mb-5 text-2xl">Rodada iniciada</p>
+                            <p className="font-bold">Notificação</p>
+                            <p>{message}</p>
+                            <div className="flex flex-col gap-5">
+                                <div>
+                                    <button
+                                        className="mt-5 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
+                                        onClick={handleNextRound}
+                                    >
+                                        Proxima Rodada
+                                    </button>
+                                </div>
+                                <div>
+                                    <button
+                                        className="focus:shadow-outline rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700 focus:outline-none"
+                                        type="button"
+                                        onClick={handleEndGame}
+                                    >
+                                        Finalizar jogo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <div className="flex justify-between gap-10">
                         <div>
                             <button
@@ -70,7 +145,7 @@ export function StartGroup() {
                                 type="button"
                                 onClick={handleStartGame}
                             >
-                                Criar Unidade
+                                Iniciar jogo
                             </button>
                         </div>
                         <div>

@@ -9,6 +9,7 @@ import { PainelGroup } from './pages/Admin/painelGroup/PainelGroup';
 import { Rodada } from './pages/game/Rodadas/Rodada';
 import { Aplicar } from './pages/game/Rodadas/Aplicar';
 import { StartGroup } from './pages/Admin/painelGroup/StartGroup';
+import { Extrato } from './pages/game/Rodadas/extrato';
 
 export function Router() {
     return (
@@ -23,6 +24,10 @@ export function Router() {
                 element={<Aplicar />}
             />
             <Route path="/sala-espera/:groupId" element={<SalaEspera />} />
+            <Route
+                path="/rodada/:groupId/round/:nRodada/extrato"
+                element={<Extrato />}
+            />
             <Route
                 path="/admin/painel-group/:groupId"
                 element={<PainelGroup />}
