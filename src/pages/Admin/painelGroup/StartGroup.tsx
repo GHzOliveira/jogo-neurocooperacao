@@ -110,7 +110,13 @@ export function StartGroup() {
             <PainelAdmin>
                 <div className="flex flex-col">
                     <div>
-                        <h1 className="bg-white">
+                        <h1 className="mb-5 bg-white">
+                            Se todos os jogadores entrão na sala, clique em
+                            Iniciar jogo. Caso contrário, aguarde. Se um jogador
+                            entrar após o início do jogo, clique em Iniciar jogo
+                            novamente.
+                        </h1>
+                        <h1 className="mb-5 bg-white">
                             Jogadores na sala: {totalUsuarios}
                         </h1>
                     </div>

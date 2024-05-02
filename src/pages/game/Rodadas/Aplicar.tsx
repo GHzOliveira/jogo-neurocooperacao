@@ -81,12 +81,13 @@ export function Aplicar() {
 
     const applyNEuro = async () => {
         try {
-            await axios.patch(
+            const response = await axios.patch(
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/applyNEuro`,
                 {
                     nEuro: applyValue.toString(),
                 },
             );
+            console.log(`nEuro: ${response.data.nEuro}`);
             setErrorMessage('');
             setShowModal(true);
 
