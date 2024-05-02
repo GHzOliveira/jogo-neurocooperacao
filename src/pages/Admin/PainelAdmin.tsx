@@ -33,6 +33,7 @@ export default function PainelControllAdmin() {
 
     const handleEditGroup = (event: React.MouseEvent, id, name: string) => {
         event.preventDefault();
+        event.stopPropagation();
         setEditGroupId(id);
         setEditGroupName(name);
     };
