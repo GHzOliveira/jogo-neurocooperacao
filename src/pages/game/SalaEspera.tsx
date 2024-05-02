@@ -8,7 +8,7 @@ export function SalaEspera() {
     const [, setMessage] = useState('');
     const [, setSocket] = useState<Socket | null>(null);
     const [gameRule, setGameRule] = useState<string | null>(null);
-    const [hasMessage, setHasMessage] = useState(false);
+    const [, setHasMessage] = useState(false);
     const [nRodada] = useState(1);
     const navigate = useNavigate();
 
@@ -67,21 +67,17 @@ export function SalaEspera() {
             <div className="mb-4 flex max-w-80 flex-col rounded bg-white px-8 pb-8 pt-6 shadow-md">
                 <div className="mb-4">
                     <p className="text-grey-darker overflow-wrap mb-2 flex flex-col whitespace-pre-wrap break-all text-sm font-bold">
-                        - Você pode investir ou manter seu nEuro. - Espere o
-                        Administrador começar o jogo, ira aparecer um botão para
-                        entrar no jogo.
+                        - Você pode investir ou manter seu nEuro.
                         {gameRule}
                     </p>
                 </div>
             </div>
-            {hasMessage && (
-                <button
-                    className="mt-80 rounded bg-orange-500 px-5 py-3 font-bold text-white hover:bg-orange-700"
-                    onClick={handleRodada}
-                >
-                    Entrar no Jogo
-                </button>
-            )}
+            <button
+                className="mt-80 rounded bg-orange-500 px-5 py-3 font-bold text-white hover:bg-orange-700"
+                onClick={handleRodada}
+            >
+                Entrar no Jogo
+            </button>
         </div>
     );
 }
