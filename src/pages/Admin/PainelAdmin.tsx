@@ -16,7 +16,7 @@ export default function PainelControllAdmin() {
         navigate('/admin/criar-unidade');
     };
 
-    const handleDeleteGroup = async (id) => {
+    const handleDeleteGroup = async (id: string) => {
         try {
             await axios.delete(
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${id}`,
@@ -27,7 +27,7 @@ export default function PainelControllAdmin() {
         }
     };
 
-    const handleEditGroup = (event, id, name) => {
+    const handleEditGroup = (event: React.MouseEvent, id, name: string) => {
         event.preventDefault();
         setEditGroupId(id);
         setEditGroupName(name);
