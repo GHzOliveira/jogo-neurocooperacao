@@ -16,7 +16,8 @@ export default function PainelControllAdmin() {
         navigate('/admin/criar-unidade');
     };
 
-    const handleDeleteGroup = async (id: string) => {
+    const handleDeleteGroup = async (event: React.MouseEvent, id: string) => {
+        event.stopPropagation();
         try {
             const response = await axios.delete(
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${id}`,
@@ -121,7 +122,10 @@ export default function PainelControllAdmin() {
                                                 className="rounded-full bg-red-500 p-2 text-white hover:bg-red-700"
                                                 onClick={(event) => {
                                                     event.stopPropagation();
-                                                    handleDeleteGroup(group.id);
+                                                    handleDeleteGroup(
+                                                        event,
+                                                        group.id,
+                                                    );
                                                 }}
                                             >
                                                 <TrashIcon className="h-5 w-5" />
