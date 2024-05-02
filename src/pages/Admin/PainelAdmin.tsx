@@ -17,6 +17,7 @@ export default function PainelControllAdmin() {
     };
 
     const handleDeleteGroup = async (event: React.MouseEvent, id: string) => {
+        event.preventDefault();
         event.stopPropagation();
         console.log('handleDeleteGroup called with id:', id);
         try {
