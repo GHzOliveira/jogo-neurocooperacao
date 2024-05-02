@@ -68,14 +68,14 @@ export function StartGroup() {
                 );
             }
 
-            const totalUsuarios = users.length;
-            await axios.patch(
-                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/applyNEuro`,
-                {
-                    totalUsuarios,
-                    nEuro: '0',
-                },
-            );
+            // const totalUsuarios = users.length;
+            // await axios.patch(
+            //     `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/applyNEuro`,
+            //     {
+            //         totalUsuarios,
+            //         nEuro: '0',
+            //     },
+            // );
         } catch (error) {
             console.error(`Erro ao buscar detalhes da rodada: ${error}`);
         }
