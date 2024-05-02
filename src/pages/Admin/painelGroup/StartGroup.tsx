@@ -111,10 +111,10 @@ export function StartGroup() {
                 <div className="flex flex-col">
                     <div>
                         <h1 className="mb-5 bg-white">
-                            Se todos os jogadores entrão na sala, clique em
-                            Iniciar jogo. Caso contrário, aguarde. Se um jogador
-                            entrar após o início do jogo, clique em Iniciar jogo
-                            novamente.
+                            Se todos os jogadores entram na tela de investimento
+                            clique em Iniciar jogo. Depois que todos jogadores
+                            tiverem investido clique em Proxima rodada (Espere
+                            todos os jogadores investirem!)
                         </h1>
                         <h1 className="mb-5 bg-white">
                             Jogadores na sala: {totalUsuarios}
