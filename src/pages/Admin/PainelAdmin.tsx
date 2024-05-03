@@ -4,6 +4,7 @@ import { useStore } from '../../context/store';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
+import { QRCodeSVG } from 'qrcode.react';
 
 export default function PainelControllAdmin() {
     const groups = useStore((state) => state.groups);
@@ -16,15 +17,22 @@ export default function PainelControllAdmin() {
         navigate('/admin/criar-unidade');
     };
 
+    const handleGenerateQRCode = () => {
+        return (
+            <QRCodeSVG
+                value="https://jogo-neurocooperacao.vercel.app/"
+                size={128}
+            />
+        );
+    };
+
     const handleDeleteGroup = async (event: React.MouseEvent, id: string) => {
         event.preventDefault();
         event.stopPropagation();
-        console.log('handleDeleteGroup called with id:', id);
         try {
-            const response = await axios.delete(
+            await axios.delete(
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${id}`,
             );
-            console.log('grupo excluido:', response.data);
             setGroups(groups.filter((group) => group.id !== id));
         } catch (error) {
             console.error(error);
@@ -146,6 +154,12 @@ export default function PainelControllAdmin() {
                         >
                             Criar nova unidade
                         </button>
+                    </div>
+                    <div className="mt-10 flex flex-col items-center">
+                        <h2 className="text-2xl font-bold">
+                            QR Code para página do participante:
+                        </h2>
+                        <div>{handleGenerateQRCode()}</div>
                     </div>
                 </div>
                 {editGroupId && (

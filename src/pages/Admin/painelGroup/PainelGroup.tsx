@@ -29,10 +29,6 @@ export function PainelGroup() {
         navigate(-1);
     };
 
-    if (!group) {
-        return <div>Grupo não encontrado</div>;
-    }
-
     useEffect(() => {
         const socketIo = io(
             'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
@@ -41,15 +37,7 @@ export function PainelGroup() {
         return () => {
             socketIo.close();
         };
-    }, []);
-
-    const handleGameRuleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        socket?.emit('sendGameRule', gameRule, groupId);
-        socket?.emit('createGame', groupId);
-        socket?.emit('joinGame', groupId);
-        navigate(`/admin/start-group/${groupId}`);
-    };
+    }, [group]);
 
     useEffect(() => {
         socket?.on('gameRuleStored', (gameRule) => {
@@ -59,6 +47,27 @@ export function PainelGroup() {
             socket?.off('gameRuleStored');
         };
     }, [socket]);
+
+    useEffect(() => {
+        axios
+            .get(
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/rounds`,
+            )
+            .then((response) => {
+                setRounds(response.data.rodada);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [groupId]);
+
+    const handleGameRuleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        socket?.emit('sendGameRule', gameRule, groupId);
+        socket?.emit('createGame', groupId);
+        socket?.emit('joinGame', groupId);
+        navigate(`/admin/start-group/${groupId}`);
+    };
 
     const handleEditClick = (round: Round) => {
         setEditingRoundId(round.id);
@@ -97,19 +106,6 @@ export function PainelGroup() {
                 });
         }
     };
-
-    useEffect(() => {
-        axios
-            .get(
-                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/rounds`,
-            )
-            .then((response) => {
-                setRounds(response.data.rodada);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, [groupId]);
 
     return (
         <div className="flex min-h-screen items-center justify-center">
@@ -203,10 +199,10 @@ export function PainelGroup() {
                     </div>
                     <div className="mb-4">
                         <label
-                            className="mb-2 block text-xl font-bold text-gray-700"
+                            className="mb-2 block whitespace-pre-wrap break-all text-xl font-bold text-gray-700"
                             htmlFor="gameRule"
                         >
-                            Regra do Jogo
+                            Regra do Jogo: (opcional)
                         </label>
                         <textarea
                             id="gameRule"
