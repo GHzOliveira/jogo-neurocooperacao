@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:3333',
+    baseURL: 'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
 });
 
 export default api;

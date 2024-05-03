@@ -34,7 +34,9 @@ export function Rodada() {
     };
 
     useEffect(() => {
-        const socket = io('http://localhost:3333');
+        const socket = io(
+            'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
+        );
         socket.on('Acabou', (groupId) => {
             console.log(
                 `Mensagem recebida do servidor: Acabou para o ${groupId}`,
@@ -50,12 +52,12 @@ export function Rodada() {
         const fetchRoundDetails = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:3333/group/${groupId}/round/${nRodada}`,
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/round/${nRodada}`,
                 );
                 let nEuroValue = response.data.nEuro;
                 if (nRodada !== '1' && userId) {
                     const userResponse = await axios.get(
-                        `http://localhost:3333/user/${userId}`,
+                        `https://neurocoop-backend-2225c4ca4682.herokuapp.com/user/${userId}`,
                     );
                     nEuroValue = userResponse.data.nEuro;
                 }
@@ -64,7 +66,7 @@ export function Rodada() {
                 const fetchUserNames = async () => {
                     try {
                         const response = await axios.get(
-                            'http://localhost:3333/users',
+                            'https://neurocoop-backend-2225c4ca4682.herokuapp.com/users',
                         );
                         const names = response.data.map(
                             (user: any) => user.nome,
@@ -88,7 +90,7 @@ export function Rodada() {
         const fetchFundoRetido = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:3333/group/${groupId}/value/fundoRetido`,
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/value/fundoRetido`,
                 );
                 setFundoRetido(response.data);
             } catch (error) {

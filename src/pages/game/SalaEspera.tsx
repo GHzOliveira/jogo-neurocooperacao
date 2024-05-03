@@ -24,7 +24,7 @@ export function SalaEspera() {
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:3333/group/${groupId}/gameRule`,
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/gameRule`,
                 );
                 setGameRule(response.data);
 
@@ -40,7 +40,9 @@ export function SalaEspera() {
     }, [groupId]);
 
     const connectToSocket = () => {
-        const newSocket = io('http://localhost:3333');
+        const newSocket = io(
+            'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
+        );
         setSocket(newSocket);
 
         newSocket.on('connect', () => {

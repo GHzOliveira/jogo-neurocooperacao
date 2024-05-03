@@ -22,7 +22,7 @@ export default function PainelControllAdmin() {
         console.log('handleDeleteGroup called with id:', id);
         try {
             const response = await axios.delete(
-                `http://localhost:3333/group/${id}`,
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${id}`,
             );
             console.log('grupo excluido:', response.data);
             setGroups(groups.filter((group) => group.id !== id));
@@ -41,7 +41,7 @@ export default function PainelControllAdmin() {
     const handleUpdateGroup = async () => {
         try {
             const response = await axios.put(
-                `http://localhost:3333/group/${editGroupId}`,
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${editGroupId}`,
                 {
                     name: editGroupName,
                 },
@@ -64,7 +64,9 @@ export default function PainelControllAdmin() {
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const response = await axios.get('http://localhost:3333/group');
+                const response = await axios.get(
+                    'https://neurocoop-backend-2225c4ca4682.herokuapp.com/group',
+                );
                 setGroups(response.data);
             } catch (error) {
                 console.error(error);

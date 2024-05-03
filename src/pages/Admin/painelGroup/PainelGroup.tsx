@@ -34,7 +34,9 @@ export function PainelGroup() {
     }
 
     useEffect(() => {
-        const socketIo = io('http://localhost:3333');
+        const socketIo = io(
+            'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
+        );
         setSocket(socketIo);
         return () => {
             socketIo.close();
@@ -78,7 +80,7 @@ export function PainelGroup() {
         if (editingRoundData) {
             axios
                 .put(
-                    `http://localhost:3333/group/${groupId}/round/${editingRoundId}`,
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/round/${editingRoundId}`,
                     editingRoundData,
                 )
                 .then((response) => {
@@ -98,7 +100,9 @@ export function PainelGroup() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3333/group/${groupId}/rounds`)
+            .get(
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/rounds`,
+            )
             .then((response) => {
                 setRounds(response.data.rodada);
             })
