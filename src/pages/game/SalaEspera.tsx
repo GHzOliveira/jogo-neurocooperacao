@@ -8,7 +8,7 @@ export function SalaEspera() {
     const [, setMessage] = useState('');
     const [, setSocket] = useState<Socket | null>(null);
     const [gameRule, setGameRule] = useState<string | null>(null);
-    const [, setHasMessage] = useState(false);
+    const [hasMessage, setHasMessage] = useState(false);
     const [nRodada] = useState(1);
     const navigate = useNavigate();
 
@@ -78,12 +78,14 @@ export function SalaEspera() {
                     </p>
                 </div>
             </div>
-            <button
-                className="mt-80 rounded bg-orange-500 px-5 py-3 font-bold text-white hover:bg-orange-700"
-                onClick={handleRodada}
-            >
-                Entrar no Jogo
-            </button>
+            {hasMessage && (
+                <button
+                    className="mt-80 rounded bg-orange-500 px-5 py-3 font-bold text-white hover:bg-orange-700"
+                    onClick={handleRodada}
+                >
+                    Entrar no Jogo
+                </button>
+            )}
         </div>
     );
 }
