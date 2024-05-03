@@ -33,13 +33,9 @@ export function Extrato() {
             });
 
         // Buscar estatísticas
-        axios
-            .get(
-                'https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/nEuroStats',
-            )
-            .then((response) => {
-                setStats(response.data);
-            });
+        axios.get('http://localhost:3333/group/nEuroStats').then((response) => {
+            setStats(response.data);
+        });
     }, [userId]);
 
     function downloadPDF() {

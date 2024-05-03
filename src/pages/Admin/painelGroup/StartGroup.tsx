@@ -19,9 +19,7 @@ export function StartGroup() {
     };
 
     useEffect(() => {
-        const newSocket = io(
-            'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
-        );
+        const newSocket = io('http://localhost:3333');
         setSocket(newSocket);
 
         newSocket.on('connect', () => {
@@ -50,27 +48,22 @@ export function StartGroup() {
 
         try {
             const roundResponse = await axios.get(
-                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/round/1`,
+                `http://localhost:3333/group/${groupId}/round/1`,
             );
             const nEuro = roundResponse.data.nEuro;
 
-            const usersResponse = await axios.get(
-                'https://neurocoop-backend-2225c4ca4682.herokuapp.com/user',
-            );
+            const usersResponse = await axios.get('http://localhost:3333/user');
             const users = usersResponse.data;
             setTotalUsuarios(users.length);
             for (const user of users) {
-                await axios.patch(
-                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/user/${user.id}`,
-                    {
-                        nEuro,
-                    },
-                );
+                await axios.patch(`http://localhost:3333/user/${user.id}`, {
+                    nEuro,
+                });
             }
 
             const totalUsuarios = users.length;
             await axios.patch(
-                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/applyNEuro`,
+                `http://localhost:3333/group/${groupId}/applyNEuro`,
                 {
                     totalUsuarios,
                     nEuro: '0',
@@ -86,8 +79,8 @@ export function StartGroup() {
     ) => {
         event.preventDefault();
         try {
-            const response = await axios.post(
-                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/next-round`,
+            await axios.post(
+                `http://localhost:3333/group/${groupId}/next-round`,
             );
             if (socket) {
                 socket.emit('nextRound', groupId);

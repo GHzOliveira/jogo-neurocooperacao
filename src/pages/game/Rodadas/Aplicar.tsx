@@ -17,9 +17,7 @@ export function Aplicar() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const newSocket = io(
-            'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
-        );
+        const newSocket = io('http://localhost:3333');
         setSocket(newSocket);
 
         newSocket.on('connect', () => {
@@ -38,7 +36,7 @@ export function Aplicar() {
             try {
                 const nextRound = Number(nRodada) + 1;
                 const response = await axios.get(
-                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/round/${nextRound}`,
+                    `http://localhost:3333/group/${groupId}/round/${nextRound}`,
                 );
                 if (response.status === 404) {
                     console.log('Obrigado por jogar');
@@ -55,12 +53,12 @@ export function Aplicar() {
         const fetchRoundDetails = async () => {
             try {
                 const response = await axios.get(
-                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/round/${nRodada}`,
+                    `http://localhost:3333/group/${groupId}/round/${nRodada}`,
                 );
                 let nEuroValue = response.data.nEuro;
                 if (Number(nRodada) > 1 && userId) {
                     const userResponse = await axios.get(
-                        `https://neurocoop-backend-2225c4ca4682.herokuapp.com/user/${userId}`,
+                        `http://localhost:3333/user/${userId}`,
                     );
                     nEuroValue = userResponse.data.nEuro;
                 }
@@ -83,8 +81,9 @@ export function Aplicar() {
         try {
             console.log(`Aplicando nEuro: ${applyValue}`);
             const response = await axios.patch(
-                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/applyNEuro`,
+                `http://localhost:3333/group/${groupId}/applyNEuro`,
                 {
+                    userId,
                     nEuro: applyValue.toString(),
                 },
             );
@@ -93,7 +92,7 @@ export function Aplicar() {
             setShowModal(true);
 
             await axios.post(
-                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${userId}/transaction`,
+                `http://localhost:3333/group/${userId}/transaction`,
                 {
                     roundId: nRodada,
                     transactionType: 'apply',
@@ -103,7 +102,7 @@ export function Aplicar() {
 
             if (Number(nRodada) > 1) {
                 await axios.put(
-                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/updateTotalNEuro`,
+                    `http://localhost:3333/group/${groupId}/updateTotalNEuro`,
                 );
             }
         } catch (error) {

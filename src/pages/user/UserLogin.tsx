@@ -23,9 +23,7 @@ export function UserLogin() {
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const response = await axios.get(
-                    'https://neurocoop-backend-2225c4ca4682.herokuapp.com/group',
-                );
+                const response = await axios.get('http://localhost:3333/group');
                 setGroups(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -34,12 +32,10 @@ export function UserLogin() {
         };
 
         fetchGroups();
-    }, []);
+    }, [setGroups]);
 
     useEffect(() => {
-        const newSocket = io(
-            'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
-        );
+        const newSocket = io('http://localhost:3333');
         setSocket(newSocket);
 
         newSocket.on('connect', () => {
@@ -51,18 +47,19 @@ export function UserLogin() {
         newSocket.on('error', (message) => {
             console.error(message);
         });
+
+        return () => {
+            newSocket.disconnect();
+        };
     }, []);
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         try {
-            const response = await axios.post(
-                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/user`,
-                {
-                    nome: data.nome,
-                    whatsapp: data.whatsapp,
-                    grupo: data.grupo,
-                },
-            );
+            const response = await axios.post(`http://localhost:3333/user`, {
+                nome: data.nome,
+                whatsapp: data.whatsapp,
+                grupo: data.grupo,
+            });
             setUserId(response.data.id);
             if (socket) {
                 socket.emit('joinGame', data.grupo);

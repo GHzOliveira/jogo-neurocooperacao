@@ -67,7 +67,7 @@ export default function ConfigAplicacao() {
 
         try {
             const response = await axios.post(
-                'https://neurocoop-backend-2225c4ca4682.herokuapp.com/group',
+                'http://localhost:3333/group',
                 grupo,
             );
             if (response.status === 201) {
