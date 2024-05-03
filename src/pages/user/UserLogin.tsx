@@ -94,7 +94,7 @@ export function UserLogin() {
                             {...register('nome', { required: true })}
                         />
                         <input
-                            type="text"
+                            type="number"
                             placeholder="Whatsapp"
                             className="mb-4 rounded-xl p-3"
                             {...register('whatsapp', { required: true })}
