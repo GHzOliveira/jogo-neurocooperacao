@@ -98,13 +98,6 @@ export function StartGroup() {
         }
     };
 
-    const handleEndGame = () => {
-        if (socket) {
-            socket.emit('endGame', groupId);
-            setStoreMessage(['Jogo finalizado']);
-        }
-    };
-
     return (
         <div className="flex min-h-screen items-center justify-center">
             <PainelAdmin>
@@ -135,15 +128,6 @@ export function StartGroup() {
                                         onClick={handleNextRound}
                                     >
                                         Proxima Rodada
-                                    </button>
-                                </div>
-                                <div>
-                                    <button
-                                        className="focus:shadow-outline rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700 focus:outline-none"
-                                        type="button"
-                                        onClick={handleEndGame}
-                                    >
-                                        Finalizar jogo
                                     </button>
                                 </div>
                             </div>
