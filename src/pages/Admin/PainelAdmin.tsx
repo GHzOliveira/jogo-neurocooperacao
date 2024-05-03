@@ -16,11 +16,15 @@ export default function PainelControllAdmin() {
         navigate('/admin/criar-unidade');
     };
 
-    const handleDeleteGroup = async (id: string) => {
+    const handleDeleteGroup = async (event: React.MouseEvent, id: string) => {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('handleDeleteGroup called with id:', id);
         try {
-            await axios.delete(
+            const response = await axios.delete(
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${id}`,
             );
+            console.log('grupo excluido:', response.data);
             setGroups(groups.filter((group) => group.id !== id));
         } catch (error) {
             console.error(error);
@@ -29,18 +33,20 @@ export default function PainelControllAdmin() {
 
     const handleEditGroup = (event: React.MouseEvent, id, name: string) => {
         event.preventDefault();
+        event.stopPropagation();
         setEditGroupId(id);
         setEditGroupName(name);
     };
 
     const handleUpdateGroup = async () => {
         try {
-            await axios.put(
+            const response = await axios.put(
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${editGroupId}`,
                 {
                     name: editGroupName,
                 },
             );
+            console.log('Nome editado', response.data);
             setGroups(
                 groups.map((group) =>
                     group.id === editGroupId
@@ -68,7 +74,7 @@ export default function PainelControllAdmin() {
         };
 
         fetchGroups();
-    }, []);
+    }, [setGroups]);
 
     const handleGroupClick = (groupId: string) => {
         navigate(`/admin/painel-group/${groupId}`);
@@ -119,7 +125,10 @@ export default function PainelControllAdmin() {
                                                 className="rounded-full bg-red-500 p-2 text-white hover:bg-red-700"
                                                 onClick={(event) => {
                                                     event.stopPropagation();
-                                                    handleDeleteGroup(group.id);
+                                                    handleDeleteGroup(
+                                                        event,
+                                                        group.id,
+                                                    );
                                                 }}
                                             >
                                                 <TrashIcon className="h-5 w-5" />

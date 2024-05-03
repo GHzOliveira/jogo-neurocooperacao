@@ -34,7 +34,7 @@ export function UserLogin() {
         };
 
         fetchGroups();
-    }, []);
+    }, [setGroups]);
 
     useEffect(() => {
         const newSocket = io(
@@ -51,6 +51,10 @@ export function UserLogin() {
         newSocket.on('error', (message) => {
             console.error(message);
         });
+
+        return () => {
+            newSocket.disconnect();
+        };
     }, []);
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {

@@ -59,6 +59,10 @@ export function SalaEspera() {
             setMessage(message);
             setHasMessage(true);
         });
+
+        return () => {
+            newSocket.disconnect();
+        };
     };
 
     return (
@@ -66,6 +70,9 @@ export function SalaEspera() {
             <h1 className="mb-8 text-4xl text-white">Regras do jogo</h1>
             <div className="mb-4 flex max-w-80 flex-col rounded bg-white px-8 pb-8 pt-6 shadow-md">
                 <div className="mb-4">
+                    <p className="text-grey-darker overflow-wrap mb-2 flex flex-col whitespace-pre-wrap break-all text-sm font-bold">
+                        Você pode investir ou manter seu nEuro.
+                    </p>
                     <p className="text-grey-darker overflow-wrap mb-2 flex flex-col whitespace-pre-wrap break-all text-sm font-bold">
                         {gameRule}
                     </p>

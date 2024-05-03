@@ -81,9 +81,11 @@ export function Aplicar() {
 
     const applyNEuro = async () => {
         try {
+            console.log(`Aplicando nEuro: ${applyValue}`);
             const response = await axios.patch(
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/applyNEuro`,
                 {
+                    userId,
                     nEuro: applyValue.toString(),
                 },
             );
