@@ -49,6 +49,9 @@ export function Aplicar() {
                 console.error(`Erro ao buscar próxima rodada: ${error}`);
             }
         });
+        return () => {
+            newSocket.disconnect();
+        };
     }, [nRodada, navigate]);
 
     useEffect(() => {
@@ -65,7 +68,6 @@ export function Aplicar() {
                     nEuroValue = userResponse.data.nEuro;
                 }
                 setRoundDetails({ ...response.data, nEuro: nEuroValue });
-                console.log(response.data);
             } catch (error) {
                 console.error(`Erro ao buscar detalhes da rodada: ${error}`);
             }
@@ -81,15 +83,13 @@ export function Aplicar() {
 
     const applyNEuro = async () => {
         try {
-            console.log(`Aplicando nEuro: ${applyValue}`);
-            const response = await axios.patch(
+            await axios.patch(
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/applyNEuro`,
                 {
                     userId,
                     nEuro: applyValue.toString(),
                 },
             );
-            console.log(`nEuro: ${response.data.nEuro}`);
             setErrorMessage('');
             setShowModal(true);
 
@@ -97,7 +97,7 @@ export function Aplicar() {
                 `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${userId}/transaction`,
                 {
                     roundId: nRodada,
-                    transactionType: 'apply',
+                    transactionType: 'Aplicou',
                     amount: applyValue.toString(),
                 },
             );

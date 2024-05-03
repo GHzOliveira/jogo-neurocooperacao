@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../../../context/store';
-import { io } from 'socket.io-client';
 
 export type RoundDetails = {
     id: string;
@@ -22,7 +21,7 @@ export function Rodada() {
     const [roundDetails, setRoundDetails] = useState<RoundDetails | null>(null);
     const [, setUserNames] = useState<string[]>([]);
     const [fundoRetido, setFundoRetido] = useState('0');
-    const [showApplyButton, setShowApplyButton] = useState(true);
+    const [highestNRodada, setHighestNRodada] = useState<string>('');
     const navigate = useNavigate();
 
     const handleAplicarClick = () => {
@@ -34,19 +33,19 @@ export function Rodada() {
     };
 
     useEffect(() => {
-        const socket = io(
-            'https://neurocoop-backend-2225c4ca4682.herokuapp.com',
-        );
-        socket.on('Acabou', (groupId) => {
-            console.log(
-                `Mensagem recebida do servidor: Acabou para o ${groupId}`,
-            );
-            setShowApplyButton(false);
-        });
-        return () => {
-            socket.off('Acabou');
+        const fetchLastNRodada = async () => {
+            try {
+                const response = await axios.get(
+                    `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/highest-nrodada`,
+                );
+                setHighestNRodada(response.data);
+            } catch (error) {
+                console.error(`Erro ao buscar a última nRodada: ${error}`);
+            }
         };
-    }, []);
+
+        fetchLastNRodada();
+    }, [groupId]);
 
     useEffect(() => {
         const fetchRoundDetails = async () => {
@@ -63,7 +62,7 @@ export function Rodada() {
                 }
                 setRoundDetails({ ...response.data, nEuro: nEuroValue });
 
-                const fetchUserNames = async () => {
+                async () => {
                     try {
                         const response = await axios.get(
                             'https://neurocoop-backend-2225c4ca4682.herokuapp.com/users',
@@ -116,7 +115,7 @@ export function Rodada() {
                 </div>
             </div>
             <div className="mb-4 flex w-64 justify-center rounded-lg bg-white py-3 shadow-md">
-                {showApplyButton && (
+                {nRodada !== highestNRodada.toString() && (
                     <button
                         className="flex items-center text-xl text-black"
                         onClick={handleAplicarClick}
@@ -125,7 +124,7 @@ export function Rodada() {
                         Aplicar ou Manter
                     </button>
                 )}
-                {!showApplyButton && (
+                {nRodada === highestNRodada.toString() && (
                     <button
                         className="flex items-center text-xl text-black"
                         onClick={handleEnviarExtratoClick}
@@ -134,6 +133,21 @@ export function Rodada() {
                     </button>
                 )}
             </div>
+            {nRodada === highestNRodada.toString() && (
+                <div className="overflow-wrap h-33 font-regular mt-10 flex w-[15rem] flex-col break-all rounded-xl bg-orange-500 p-2 text-lg text-white">
+                    <div>
+                        <p>
+                            Cada pessoa terá um valor diferente em sua carteira.
+                        </p>
+                        <p>
+                            Este valor é feito o câmbio na proporção de 1 para 1
+                        </p>
+                        <p>e cada um pode escolher 1 livro para adquirir</p>
+                        <p>utilizando seu saldo de</p>
+                        <p>nEUROS</p>
+                    </div>
+                </div>
+            )}
 
             <div className="mt-20 flex w-80 flex-col justify-center gap-2 rounded-lg bg-white py-3 text-center shadow-md">
                 <div>

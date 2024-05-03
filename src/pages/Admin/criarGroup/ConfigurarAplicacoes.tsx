@@ -19,6 +19,10 @@ export default function ConfigAplicacao() {
     const navigate = useNavigate();
     const [groupName, setGroupName] = useState(nomeUnidade);
 
+    const handleBackClick = () => {
+        navigate('/admin/painel-controll');
+    };
+
     const handleNEurosChange = (
         i: number,
         value: string | null | undefined,
@@ -197,13 +201,23 @@ export default function ConfigAplicacao() {
                             </div>
                         </Tabs>
                     </div>
-                    <div>
-                        <button
-                            className="rounded-xl bg-[#ff7d0d] p-3 text-black"
-                            onClick={handleSubmit}
-                        >
-                            Criar Grupo
-                        </button>
+                    <div className="flex justify-between gap-10">
+                        <div>
+                            <button
+                                className="rounded-xl bg-[#ff7d0d] p-3 text-white"
+                                onClick={handleSubmit}
+                            >
+                                Criar unidade
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                onClick={handleBackClick}
+                                className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+                            >
+                                Voltar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </PainelAdmin>
