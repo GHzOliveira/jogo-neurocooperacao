@@ -98,10 +98,38 @@ export function StartGroup() {
         }
     };
 
+    const handleRemovePlayers = async (
+        event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+        event.preventDefault();
+        try {
+            await axios.delete(
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/users`,
+            );
+            setStoreMessage(['Todos os jogadores foram removidos']);
+        } catch (error) {
+            console.error(`Erro ao remover jogadores: ${error}`);
+        }
+    };
+
+    const handleResetValues = async (
+        event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+        event.preventDefault();
+        try {
+            await axios.patch(
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/group/${groupId}/reset-valores`,
+            );
+            setStoreMessage(['Valores resetados com sucesso']);
+        } catch (error) {
+            console.error(`Erro ao resetar valores: ${error}`);
+        }
+    };
+
     return (
         <div className="flex min-h-screen items-center justify-center">
             <PainelAdmin>
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center">
                     <div>
                         <h1 className="mb-5 bg-white">
                             Se todos os jogadores entram na tela de Regra do
@@ -109,25 +137,37 @@ export function StartGroup() {
                             jogadores tiverem investido clique em Proxima rodada
                             (Espere todos os jogadores investirem!)
                         </h1>
-                        <h1 className="mb-5 bg-white">
-                            Jogadores na sala: {totalUsuarios}
-                        </h1>
                     </div>
                     {message && (
                         <div
-                            className="mb-10 border-l-4 border-green-500 bg-green-200 p-4 text-green-700"
+                            className="mb-10 flex flex-col items-center border-l-4 border-green-500 bg-green-200 p-4 text-green-700"
                             role="alert"
                         >
                             <p className="mb-5 text-2xl">Rodada iniciada</p>
-                            <p className="font-bold">Notificação</p>
-                            <p>{message}</p>
                             <div className="flex flex-col gap-5">
-                                <div>
+                                {/* <div className="rounded border border-gray-300 p-4">
+                                    <h2 className="mb-4 text-center text-lg font-bold text-black">
+                                        Lista de jogadores
+                                    </h2>
+                                </div> */}
+                                <div className="flex flex-col gap-5">
                                     <button
                                         className="mt-5 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
                                         onClick={handleNextRound}
                                     >
                                         Proxima Rodada
+                                    </button>
+                                    <button
+                                        className="mt-5 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+                                        onClick={handleRemovePlayers}
+                                    >
+                                        Remover Jogadores
+                                    </button>
+                                    <button
+                                        className="mt-5 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+                                        onClick={handleResetValues}
+                                    >
+                                        Resetar Valores
                                     </button>
                                 </div>
                             </div>
@@ -140,7 +180,7 @@ export function StartGroup() {
                                 type="button"
                                 onClick={handleStartGame}
                             >
-                                Iniciar jogo
+                                Habilitar botão
                             </button>
                         </div>
                         <div>
