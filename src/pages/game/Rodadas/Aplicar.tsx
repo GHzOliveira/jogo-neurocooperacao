@@ -76,11 +76,6 @@ export function Aplicar() {
         fetchRoundDetails();
     }, [groupId, nRodada, userId]);
 
-    const manterNEuro = async () => {
-        setApplyValue(0);
-        await applyNEuro();
-    };
-
     const applyNEuro = async () => {
         try {
             await axios.patch(
@@ -147,14 +142,6 @@ export function Aplicar() {
                 onClick={applyNEuro}
             >
                 Aplicar nEuro
-            </button>
-            <button
-                type="submit"
-                className="mt-5 w-72 rounded-xl bg-orange-700 p-3 text-2xl text-white"
-                disabled={!!errorMessage}
-                onClick={manterNEuro}
-            >
-                Manter nEuro
             </button>
             {showModal && (
                 <div className="fixed inset-0 z-10 overflow-y-auto">

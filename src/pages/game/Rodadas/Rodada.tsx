@@ -22,6 +22,7 @@ export function Rodada() {
     const [, setUserNames] = useState<string[]>([]);
     const [fundoRetido, setFundoRetido] = useState('0');
     const [highestNRodada, setHighestNRodada] = useState<string>('');
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
 
     const handleAplicarClick = () => {
@@ -30,6 +31,26 @@ export function Rodada() {
 
     const handleEnviarExtratoClick = () => {
         navigate(`/rodada/${groupId}/round/${nRodada}/extrato`);
+    };
+
+    const handleSairClick = () => {
+        setShowModal(true);
+    };
+
+    const handleConfirmSair = async () => {
+        try {
+            await axios.delete(
+                `https://neurocoop-backend-2225c4ca4682.herokuapp.com/user/${userId}`,
+            );
+        } catch (error) {
+            console.error(`Erro ao deletar usuário: ${error}`);
+        }
+        setShowModal(false);
+        navigate('/');
+    };
+
+    const handleCancelSair = () => {
+        setShowModal(false);
     };
 
     useEffect(() => {
@@ -102,6 +123,11 @@ export function Rodada() {
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center">
+            <div className="mb-4">
+                <h1 className="text-2xl font-bold text-white">
+                    Rodada Atual: {nRodada}
+                </h1>
+            </div>
             <div className="mb-4 flex h-44 w-80 flex-col justify-center rounded-2xl bg-orange-500 px-8 pb-8 pt-6 shadow-md">
                 <div>
                     <h1 className="text-xl text-white">nEuro em conta</h1>
@@ -156,6 +182,38 @@ export function Rodada() {
                 </div>
                 <div className="mx-4 border-l" />
             </div>
+
+            <div
+                className="mt-10 flex w-80 flex-col justify-center gap-2 rounded-lg bg-red-600 py-3 text-center shadow-md"
+                onClick={handleSairClick}
+            >
+                Sair
+            </div>
+
+            {showModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="rounded-lg bg-white p-6 shadow-lg">
+                        <h2 className="mb-4 text-xl font-bold">Confirmação</h2>
+                        <p className="mb-4">
+                            Você tem certeza que deseja sair?
+                        </p>
+                        <div className="flex justify-end">
+                            <button
+                                className="mr-4 rounded bg-gray-300 px-4 py-2 hover:bg-gray-400"
+                                onClick={handleCancelSair}
+                            >
+                                Não
+                            </button>
+                            <button
+                                className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                                onClick={handleConfirmSair}
+                            >
+                                Sim
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

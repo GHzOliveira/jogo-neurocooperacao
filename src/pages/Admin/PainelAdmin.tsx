@@ -97,7 +97,7 @@ export default function PainelControllAdmin() {
                             Unidades criadas
                         </h1>
                         <p className="mb-5">
-                            Aperte em uma unidade para criar um jogo
+                            Aperte em uma unidade para configurar um jogo
                         </p>
                         {groups.length === 0 ? (
                             <p>
